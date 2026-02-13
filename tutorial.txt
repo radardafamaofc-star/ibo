@@ -1,0 +1,13 @@
+SUBA PAINEL NA SUA HOSPEDAGEM
+
+ABRI O APK EDITOR 
+VAI EM assets depois em setting.json 
+
+troca http://xc801.painelwb.com.br/
+
+coloca seu dominio ate api
+
+troca nome normal
+
+pronto!!!!!
+

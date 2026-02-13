@@ -1,69 +1,39 @@
-<?php
+<?php 
 include ('includes/header.php');
-$res = $db->query("SELECT * FROM users WHERE id='1'");
-$row = $res->fetchArray();
 
-if (isset($_POST['submit'])){
+$res = $db->query("SELECT * FROM users WHERE id='1'");
+$row=$res->fetchArray();
+
+if(isset($_POST['submit'])){
 	$db->exec("UPDATE users SET	username='{$_POST['username']}', password='{$_POST['password']}' WHERE id='1' ");
-	session_start();
 	session_regenerate_id();
-	$_SESSION['loggedin'] = true;
+	$_SESSION['loggedin'] = TRUE;
 	$_SESSION['name'] = $_POST['username'];
-	header("Location: ". basename($_SERVER["SCRIPT_NAME"])."?status=1");
+	header("Location: dns.php");
 }
 
 ?>
+<div class="container text-center text-dark mt-5">
+  <div class="row">
+    <div class="col-lg-4 d-block mx-auto mt-5">
+      <div class="row">
+        <div class="col-xl-12 col-md-12 col-md-12">
+          <div class="card">
+            <div class="card-body wow-bg" id="formBg">
+              <h3 class="colorboard">Edit User</h3>
+              <form  method="post">
+                <div class="input-group mb-3"> <input type="text" class="form-control textbox-dg" name="username" value="<?php echo $row['username'] ?>" > </div>
+                <div class="input-group mb-4"> <input type="text" class="form-control textbox-dg" name="password" value="<?php echo $row['password'] ?>" > </div>
+                <div class="row">
+                  <div class="col-12"> <button type="submit" name="submit" class="btn btn-primary btn-block logn-btn">Submit</button> </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    	<div class="col-md-6 mx-auto">
-			<div class="card-body">
-				<div class="card bg-primary text-white">
-					<div class="card-header card-header-warning">
-                        <center>
-                            <h2><i class="icon icon-user"></i> Update Credentials</h2>
-                        </center>
-                    </div>
-					<div class="alert alert-info alert-dismissible" role="alert">
-						<center>
-							<h3 style="color:black!important">Do <strong style="color:black!important">not</strong> use <em>admin</em> for username or password!</h3>
-						</center>
-					</div>
-
-					<div class="card-body">
-						<form  method="post">
-
-							<div class="form-group">
-								<div class="form-group form-float form-group-lg">
-                                    <div class="form-line">
-                                        <label class="form-label">Username</label>
-										<input type="text" class="form-control" name="username" value="<?=$row['username'] ?>">
-									</div>
-								</div>
-							</div>
-
-							<div class="form-group">
-								<div class="form-group form-float form-group-lg">
-                                    <div class="form-line">
-                                        <label class="form-label">Password</label>
-										<input type="text" class="form-control" name="password" value="<?=$row['password'] ?>">
-									</div>
-								</div>
-							</div>
-
-							<hr>
-
-							<center>
-								<button type="submit" name="submit" class="btn btn-info">
-									<i class="icon icon-check"></i>Update Credentials
-								</button>
-							</center>
-						</form>
-					</div>
-				</div>
-			</div>
-		</div>
-
-
-<?php include ('includes/footer.php'); ?>
-
-</body>
-</html>
+<?php include ('includes/footer.php');?>

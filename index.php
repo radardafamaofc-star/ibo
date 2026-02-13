@@ -1,19 +1,15 @@
 <?php
 @session_start();
-include('includes/config.php');
+
 $db = new SQLite3('./api/.db.db');
 $db->exec("CREATE TABLE IF NOT EXISTS users(id INTEGER PRIMARY KEY,username TEXT ,password TEXT)");
-
-$db->exec("CREATE TABLE IF NOT EXISTS subscription(id INTEGER PRIMARY KEY, mac_address TEXT, expire_date TEXT)");
-
-$db->exec('CREATE TABLE IF NOT EXISTS ibo(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,mac_address VARCHAR(100),username VARCHAR(100),password VARCHAR(100),expire_date VARCHAR(100),url VARCHAR(100),title VARCHAR(100),created_at VARCHAR(100))');
 
 $log_check = $db->query("SELECT * FROM users WHERE id='1'");
 $roe = $log_check->fetchArray();
 $loggedinuser = @$roe['username'];
 
-if (isset($_SESSION['name']) == $loggedinuser) {
-	header("location:"."user.php");
+if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] == true) {
+	header("location:"."dns.php");
 }
 
 $rows = $db->query("SELECT COUNT(*) as count FROM users");
@@ -44,7 +40,7 @@ if (isset($_POST["login"])){
 			if ($_POST['username'] == 'admin'){
 				header('Location: user.php');
 			}else{
-				header('Location: user.php');
+				header('Location: dns.php');
 			}
 		}else{
 		header('Location: ./api/index.php');
@@ -55,73 +51,85 @@ if (isset($_POST["login"])){
 	$db->close();
 	}
 
+
+////Get User IP
+function real_ip() {
+	$ip = 'undefined';
+	if (isset($_SERVER)) {
+		$ip = $_SERVER['REMOTE_ADDR'];
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		elseif (isset($_SERVER['HTTP_CLIENT_IP'])) $ip = $_SERVER['HTTP_CLIENT_IP'];
+	} else {
+		$ip = getenv('REMOTE_ADDR');
+		if (getenv('HTTP_X_FORWARDED_FOR')) $ip = getenv('HTTP_X_FORWARDED_FOR');
+		elseif (getenv('HTTP_CLIENT_IP')) $ip = getenv('HTTP_CLIENT_IP');
+	}
+	$ip = htmlspecialchars($ip, ENT_QUOTES, 'UTF-8');
+	return $ip;
+}
+
+$curr = basename($_SERVER['PHP_SELF']);
+$page = substr($curr, 0, 3);
+
+
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="author" content="RTX">
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-	<link rel="stylesheet" href="./css/css.css">
-    <title>RTX Rebrand</title>
-    <link rel="icon" href="./img/favicon.ico" type="image/x-icon">
-    <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>FTG</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="./includes/css.css">
+	
 </head>
-<style>
-body{
-  background-color: #181828;
-  background-image: url("./img/LoginBG.png");
-  color #fff;
-}
 
-#particles-js{
-  background-size: cover;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  /*width: 100%;
-  height: 100vh;*/
-  background: #8000FF;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+<div>
+  <div class="starsec"></div>
+  <div class="starthird"></div>
+  <div class="starfourth"></div>
+  <div class="starfifth"></div>
+</div>
 
-}
-
-.particles-js-canvas-el{
-  position: fixed;
-}
+ <style> 
+  table{table-layout: fixed;}
+  td{word-wrap:break-word}
+  .main{padding-top: 25px;}
 </style>
-
-<br><br>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-4 mx-md-auto">
-                    <div class="text-center">
-                        <img class="w-75 p-1" src="./img/logo_ne.png" alt="">
-                    </div>
-                    <br>
-                    <form method="post">
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-lg"
-                                   placeholder="Username" name="username" required autofocus>
-                        </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control form-control-lg"
-                                   placeholder="Password" name="password" required>
-                        </div>
-                        <input type="submit" class="btn btn-warning btn-lg btn-block" value="Log In" name="login">
-                    </form>
-					<br>
-                 <center><a class="list-grup-item" href="https://t.me/SaNoJRTX" target="_blank">&nbsp&nbsp&nbsp&nbsp&#169  <?=date("Y")?> * RTX Rebrand * </a></center>
+<div class="container text-center text-dark mt-5">
+  <div class="row">
+    <div class="col-lg-4 d-block mx-auto mt-5">
+      <div class="row">
+        <div class="col-xl-12 col-md-12 col-md-12">
+          <div class="card">
+            <div class="card-body wow-bg" id="formBg">
+              <h3 class="colorboard">XCIPTV 6.0(801) Login</h3>
+              <h4 class="text-muted">GLOBAL WEB</h4>
+              <form  method="post">
+                <p class="text-muted">Faça login na sua conta</p>
+                <div class="input-group mb-3"> <input type="text" class="form-control textbox-dg" name="username" placeholder="Usuario"> </div>
+                <div class="input-group mb-4"> <input type="password" class="form-control textbox-dg" name="password" placeholder="Senha"> </div>
+                <div class="row">
+                  <div class="col-12"> <button type="submit" name="login" class="btn btn-primary btn-block logn-btn">Login</button> </div>
                 </div>
+                <br>
+                <a href="seuapp/XCIPTV 801.apk" class="btn btn-lg btn btn-primary btn-block">Baixar App</a>
+</div>
+              </form>
             </div>
+          </div>
         </div>
-<br><br>
+      </div>
+    </div>
+  </div>
+</div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="js/particles.js"></script>
+<?php include ('includes/footer.php');?>
+</body>
+
+</html>
 

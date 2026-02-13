@@ -166,7 +166,7 @@ $loc = $details->loc;
 }
 
 body {
-    background-image: radial-gradient( black 10%, #000000 99%);
+    background-image: radial-gradient( black 40%, #000954 99%);
     height: 100vh;
 }
 
@@ -178,12 +178,12 @@ div {
     transform: translateY(-50%);
     margin: 0 auto;
     padding: 30px 30px 10px;
-    
+    box-shadow: 0 0 150px -20px rgba(0, 0, 0, 0.5);
     z-index: 3;
 }
 
 P {
-    font-family: "", monospace;
+    font-family: "Share Tech Mono", monospace;
     color: #f5f5f5;
     margin: 0 0 20px;
     font-size: 17px;
@@ -191,15 +191,11 @@ P {
 }
 
 span {
-    color: #1800f0;
+    color: #F0DA00;
 }
 
 i {
-    color: #ffe600;
-}
-
-j {
-    color: #26c91a
+    color: #36FE00;
 }
 
 div a {
@@ -207,11 +203,11 @@ div a {
 }
 
 b {
-    color: #09ff00;
+    color: #81a2be;
 }
 
 a {
-    color: #ff1e00;
+    color: #FF2D00;
 }
 
 @keyframes slide {
@@ -230,23 +226,21 @@ a {
 </style>
 
 <div>
-<p><a>Access Denied !!! You Do Not Have The Permission To Access !!!</a></p>
-<p>>>>>> <span>Time Of Arrival</span>: <i><?php echo  date('d-m-Y H:i:s')?></i></p>
-<p>>>>>> <span>IP Address</span>: <i><?php echo  real_ip()?></i></p>
-<p>>>>>> <span>Country</span>: <i><?php echo  $country?></i></p>
-<p>>>>>> <span>State</span>: <i><?php echo $state ?></i></p>
-<p>>>>>> <span>City</span>: <i><?php echo $city ?></i></p>
-<p>>>>>> <span>Location</span>: <i><?php echo $loc ?></i></p>
-<p>>>>>> <span>ISP</span>: <i><?php echo $isp ?></i></p>
-<p>>>>>> <span>Operating System</span>: <i><?php echo get_os() ?></i></p>
-<p>>>>>> <span>Browser</span>: <i><?php echo Browser_type() ?></i></p>
-<p>>>>>> <span>Device</span>: <i><?php echo get_device() ?></i></p>
-<p>>>>>> <span>Tor Browser</span>: <i><?php echo IsTorExitPoint() ?></i></p>
-<p>>>>>> <span>@admin</span>:  <i>Logging Session And Recording Ip:</i> <j> " Completed . . . "</j></p>
-<p>>>>>> <span>@admin</span>:  <i>Preparing to DDos Recorded Ip:</i> <j>" Successful . . . "</j></p>
-<p>>>>>> <span>@admin</span>:  <j>" </j><a>!!! You Will Be Blacklisted Shortly.... !!!</a><j> "</j></i></p>
-
-
+<p><span></span><a>Access Denied. You Do Not Have The Permission To Access This Page On This Server</a></p>
+<p>$ <span>Time Of Arrival</span>: "<i><?php echo  date('Y-m-d H:i:s')?></i>"</p>
+<p>$ <span>IP Address</span>: "<i><?php echo  real_ip()?></i>"</p>
+<p>$ <span>Country</span>: "<i><?php echo  $country?></i>"</p>
+<p>$ <span>State</span>: "<i><?php echo $state ?></i>"</p>
+<p>$ <span>City</span>: "<i><?php echo $city ?></i>"</p>
+<p>$ <span>Location</span>: "<i><?php echo $loc ?></i>"</p>
+<p>$ <span>ISP</span>: "<i><?php echo $isp ?></i>"</p>
+<p>$ <span>User Agent</span>: "<i><?php echo $_SERVER[HTTP_USER_AGENT] ?></i>"</p>
+<p>$ <span>Operating System</span>: "<i><?php echo get_os() ?></i>"</p>
+<p>$ <span>Browser</span>: "<i><?php echo Browser_type() ?></i>"</p>
+<p>$ <span>Device</span>: "<i><?php echo get_device() ?></i>"</p>
+<p>$ <span>Tor Browser</span>: "<i><?php echo IsTorExitPoint() ?></i>"</p>
+<p>root@admin: ~$ <span>Log Session</span>: "<i>Success</i>"</p>
+<p>root@admin: ~$ <a>You will be Blacklisted shortly....</a><i></i></p>
 
 </div>
 		
@@ -266,6 +260,19 @@ setTimeout(function() {
     }, 10);
 },0);
 
-
 </script>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+?>
